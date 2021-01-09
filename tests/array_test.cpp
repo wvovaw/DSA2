@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../array.h"
+#include "../array.hpp"
 
 TEST(ArrayTests, SizeOfArray) {
 

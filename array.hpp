@@ -1,5 +1,5 @@
-#ifndef DSA_ARRAY_H
-#define DSA_ARRAY_H
+#ifndef DSA_ARRAY_HPP
+#define DSA_ARRAY_HPP
 
 #include <cstddef>
 #include <stdexcept>
@@ -55,4 +55,4 @@ private:
     T _data[N];
 };
 
-#endif //DSA_ARRAY_H
+#endif //DSA_ARRAY_HPP

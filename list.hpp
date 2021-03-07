@@ -92,7 +92,12 @@ public:
     }
     void insert(unsigned int pos, const T& val) {
       auto current = tail;
-      if (pos == 0) {
+      if(current == nullptr) {
+        head = new Node(val);
+        tail = head;
+        ++_size;
+      }
+      else if (pos == 0) {
         Node *node = new Node(val);
         node->next = tail;
         tail->prev = node;
@@ -124,7 +129,14 @@ public:
     }
     void insert(unsigned int pos, unsigned int count, const T& val) {
       auto current = tail;
-      if (pos == 0) {
+      if(current == nullptr) {
+        head = new Node(val);
+        tail = head;
+        for(auto i = 0; i < count - 1; ++i)
+          push_front(val);
+        this->_size = count;
+      }
+      else if (pos == 0) {
         list sublist(count, val);
         sublist.front()->next = tail;
         tail->prev = sublist.front();
@@ -154,6 +166,79 @@ public:
         ss << "List's size is " << _size << ". Max index is " << _size << " for this list.";
         throw std::out_of_range (ss.str());
       }
+    }
+    void erase(unsigned int pos) {
+      auto current = tail;
+      if (current == nullptr)
+        throw std::out_of_range ("List is already empty.");
+      else if (pos == 0)
+        pop_back();
+      else if (pos == _size)
+        pop_front();
+      else if (0 < pos < _size) {
+        for (auto i = 0; i < pos; ++i)
+          current = current->next;
+          current->next->prev = current->prev;
+          current->prev->next = current->next;
+          --_size;
+      }
+      else {
+        std::ostringstream ss;
+        ss << "List's size is " << _size << ". Max index is " << _size << " for this list.";
+        throw std::out_of_range (ss.str());
+      }
+    }
+    /* TODO: Implement multiple erase method.
+     * It should remove 1 or more entries from list.
+     * Count can be higher than list's current size. In this case remove all the rest after pos
+     * Or not..... idk
+     * If count == -1 - remove until the end of list
+   */
+    void erase(unsigned int pos, unsigned int count) {
+      auto current = tail;
+      if (current == nullptr)
+        throw std::out_of_range ("List is already empty.");
+      else if (pos == 0)
+        pop_back();
+      else if (pos == _size)
+        pop_front();
+      else if (0 < pos < _size) {
+        if (count < 0) {
+          for (auto i = 0; i < pos; ++i)
+            current = current->next;
+          // Дошли до pos и надо удалить оставшееся
+          head = current;
+          current->next = nullptr;
+        }
+        for (auto i = pos; i < count; ++i)
+          current = current->next;
+        current->next->prev = current->prev;
+        current->prev->next = current->next;
+        --_size;
+      }
+      else {
+        std::ostringstream ss;
+        ss << "List's size is " << _size << ". Max index is " << _size << " for this list.";
+        throw std::out_of_range (ss.str());
+      }
+    }
+    void clear() {
+      auto current = tail;
+      while(current->next != nullptr) {
+        current = current->next;
+        delete current->prev;
+        --_size;
+      }
+      delete current;
+      head = nullptr;
+      tail = nullptr;
+      --_size;
+    }
+    /* TODO: Implement resize methods.
+     * */
+    void resize(size_t newSize) {
+    }
+    void resize(size_t newSize, const T& val) {
     }
 private:
     class Node {

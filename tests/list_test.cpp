@@ -115,3 +115,39 @@ TEST(ListTest, insertSeveralAtPositionMethod) {
   listOfChars.insert(3, 2, '+');
   EXPECT_EQ(listOfChars.back()->next->next->next->next->getData(), '+');
 }
+TEST(ListTest, clearMethod) {
+  list<char> listOfChars;
+  listOfChars.insert(0, 10, ')');
+  EXPECT_EQ(listOfChars.size(), 10);
+  listOfChars.clear();
+  EXPECT_EQ(listOfChars.size(), 0);
+
+  list<int> listOfInts;
+  listOfInts.insert(0, 228);
+  EXPECT_EQ(listOfInts.size(), 1);
+  listOfInts.clear();
+  EXPECT_EQ(listOfInts.size(), 0);
+  listOfInts.insert(0, 10, 228);
+  EXPECT_EQ(listOfInts.size(), 10);
+  listOfInts.clear();
+  EXPECT_EQ(listOfInts.size(), 0);
+}
+TEST(ListTest, eraseSingleMethod) {
+  list<char> listOfChars;
+  char a = 20;
+  listOfChars.push_front(a++);
+  listOfChars.push_front(a++);
+  listOfChars.push_front(a++);
+  listOfChars.push_front(a++);
+  listOfChars.push_front(a++);
+  listOfChars.push_front(a++);
+  EXPECT_EQ(listOfChars.size(), 6);
+  listOfChars.erase(0);
+  EXPECT_EQ(listOfChars.size(), 5);
+  listOfChars.erase(3);
+  EXPECT_EQ(listOfChars.size(), 4);
+  listOfChars.erase(4);
+  EXPECT_EQ(listOfChars.size(), 3);
+  listOfChars.clear();
+  EXPECT_THROW(listOfChars.erase(0), std::out_of_range);
+}
